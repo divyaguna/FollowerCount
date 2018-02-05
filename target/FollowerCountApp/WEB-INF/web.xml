@@ -1,0 +1,22 @@
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+  <display-name>Archetype Created Web Application</display-name>
+   <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+   </welcome-file-list>
+   <servlet>
+        <servlet-name>ouath</servlet-name>
+        <servlet-class>com.twitter.user.FollowerCount
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ouath</servlet-name>
+        <url-pattern>/ouath</url-pattern>
+    </servlet-mapping>
+    <error-page>
+        <exception-type>twitter4j.TwitterException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+</web-app>
