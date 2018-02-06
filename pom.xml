@@ -15,11 +15,13 @@
       <scope>test</scope>
     </dependency>
      <!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core -->
-	<dependency>
-           <groupId>org.twitter4j</groupId>
-           <artifactId>twitter4j-core</artifactId>
-           <version>[4.0,)</version>
-       </dependency>
+	<!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-async -->
+<dependency>
+    <groupId>org.twitter4j</groupId>
+    <artifactId>twitter4j-async</artifactId>
+    <version>3.0.5</version>
+</dependency>
+
 	<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>

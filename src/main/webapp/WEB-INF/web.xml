@@ -11,9 +11,18 @@
         <servlet-class>com.twitter.user.FollowerCount
         </servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>callback</servlet-name>
+        <servlet-class>com.twitter.user.CallbackServlet
+        </servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ouath</servlet-name>
         <url-pattern>/ouath</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>callback</servlet-name>
+        <url-pattern>/callback</url-pattern>
     </servlet-mapping>
     <error-page>
         <exception-type>twitter4j.TwitterException</exception-type>
