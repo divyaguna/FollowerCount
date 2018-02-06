@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <body>
-<h2>Hello World!</h2>
 
-<h3><a href="ouath" class="button">Get Twitter Followers Count</a></h3>
-<h4>${followercount}</h4>
+<p id="demo"></p>
+<h2><a href="ouath" class="button"><input type="submit" value="Twitter Follower Count"></a></h2>
+<h3>${followercount}</h3>
 </body>
 </html>

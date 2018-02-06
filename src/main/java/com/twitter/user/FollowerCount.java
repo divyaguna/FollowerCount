@@ -31,91 +31,34 @@ public class FollowerCount extends HttpServlet{
 	
 	 
 		    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			    // The factory instance is re-useable and thread safe.
+			    
 		    	BasicConfigurator.configure();
-		    	log.debug("inside doGet method");
-		    	 // Set response content type
 		    	
-		    	
-		    	 
-		        response.setContentType("text/html");
-
-		        // Actual logic goes here.
-		        //PrintWriter out = response.getWriter();
 		    	try{
+		    		log.debug("Setting consumer key and consumer secret to configure builder and passing to twitter factory");
 		    		ConfigurationBuilder builder = new ConfigurationBuilder();
 		    		builder.setOAuthConsumerKey(CONSUMER_KEY);
 		    		builder.setOAuthConsumerSecret(CONSUMER_SECRET);
 		    		
 		    		Configuration configuration = builder.build();
 		    		TwitterFactory factory = new TwitterFactory(configuration);
+		    		log.debug("Creating twitter instance");
 		    		Twitter twitter = factory.getInstance();
+		    		//getting session of request and setting twitter attribute with twitter object for later use of session at the time of call back
 		    		request.getSession().setAttribute("twitter", twitter);
-		    		log.debug("twitter instance created");
+		    		//creating call back url by getting request url and passing to requestToken Object
 		    		StringBuffer callbackURL = request.getRequestURL();
 		    	    int index = callbackURL.lastIndexOf("/");
 		    	    callbackURL.replace(index, callbackURL.length(), "").append("/callback");
 			    RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL.toString());
+			    //Setting of requestToken session to request object with the help of requestToken object for later to get accesstoken at the time of call back
 			    request.getSession().setAttribute("requestToken", requestToken);
+			    log.debug("Sending authentication url of twitter to browser and authenticating then getting back to call back url with oauth_verifier");
 			    response.sendRedirect(requestToken.getAuthenticationURL());
-
-			    //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			    //session.put("requestToken_token", requestToken.getToken());
-			    //session.put("requestToken_secret", requestToken.getTokenSecret());
-			 log.debug("oauth_token"+requestToken.getToken()+"oauth_verifier"+requestToken.getTokenSecret());
-			      System.out.println("Open the following URL and grant access to your account:");
-			      System.out.println(requestToken.getAuthorizationURL());
-			     /* try {
-			    	  Desktop desktop = java.awt.Desktop.getDesktop();
-			    	  URI oURL = new URI(requestToken.getAuthorizationURL());
-			    	  desktop.browse(oURL);
-			    	} catch (Exception e) {
-			    	  e.printStackTrace();
-			    	}
-			      log.debug(request.getSession().getAttribute("oauth_token"));
-			      log.debug("oauth_token"+requestToken.getToken()+"oauth_verifier"+requestToken.getTokenSecret());
-			      //System.out.print("Enter the PIN(if aviailable) or just hit enter.[PIN]:");
-			      oauth_token=requestToken.getToken();
-			      oauth_verifier=requestToken.getTokenSecret();
-			      accessToken=twitter.getOAuthAccessToken(oauth_token, oauth_verifier);
-			      
-			     /* String pin = br.readLine();
-			      try{
-			         if(pin.length() > 0){
-			           accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-			         }else{
-			           accessToken = twitter.getOAuthAccessToken();
-			         }
-			      } catch (TwitterException te) {
-			        if(401 == te.getStatusCode()){
-			          System.out.println("Unable to get the access token.");
-			        }else{
-			          te.printStackTrace();
-			        }
-			      }
-			      System.out.println("accessToken"+accessToken);
-			    
-			    User user = twitter.showUser(accessToken.getScreenName());
-			    int followercount =user.getFollowersCount();
-			    System.out.println(followercount);
-			    request.setAttribute("followercount",String.valueOf(followercount));
-			    request.getRequestDispatcher("index.jsp").forward(request, response); */
-			    }
-			    catch(TwitterException e){
-			    	 e.printStackTrace();
-			    }
-			 /* //persist to the accessToken for future reference.
-			    storeAccessToken((int) twitter.verifyCredentials().getId() , accessToken);
-			    Status status = twitter.updateStatus(args[0]);
-			    System.out.println("Successfully updated the status to [" + status.getText() + "].");
-			    System.exit(0);
-			  }
-			  private static void storeAccessToken(int useId, AccessToken accessToken){
-			    //store accessToken.getToken()
-			    //store accessToken.getTokenSecret()
-			  }*/
-			   
-		 }
-		 
+		    	}
+		    	catch(TwitterException e) {
+		    		throw new ServletException(e);
+		    	}
+		    }
 }
 
